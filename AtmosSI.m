@@ -74,8 +74,8 @@ for m = 1:length(Hgp)
 
         if Hgp(m) > Hk(k+1)      % h is above layer k
 
-            if Tkgrad(k)~=0    % linear thermal layer
-                sr = ( Tk(k+1)./Tk(k) ).^(-GMR./Tkgrad(k));
+            if Tgradk(k)~=0    % linear thermal layer
+                sr = ( Tk(k+1)./Tk(k) ).^(-GMR./Tgradk(k));
             else               % isothermal layer
                 sr = exp(-GMR*(Hk(k+1)-Hk(k))./Tk(k+1));
             end
