@@ -32,7 +32,7 @@ function [T,rho,P,a,visc,theta,sigma,delta,kappa] = AtmosUS(Hgp,varargin)
 Re   = 6369000 / (0.30480);                        % (ft) radius of the earth
 GMR  = 0.034163195 * (1.8*0.30480);                % (degR/ft) combined gravity and gas constant of dry air on earth
 H0   = 0.0 / (0.30480);                            % (ft) datum, sea level
-T0   = 288.15*1.8;                                 % (R), SL std temp
+T0   = 288.15 * (1.8);                             % (R), SL std temp
 rho0 = 1.225 * (14.5939*(0.30480^3));              % (sl/ft^3), SL std density
 P0   = 101325 * (1/4.4482216152605)*(0.30480^2);   % (lbf/ft^2), SL std pressure
 a0   = 340.2686 / (0.30480);                       % (ft/s), speed of sound at SL std temperature
@@ -69,11 +69,11 @@ for m = 1:length(Hgp)
     Pks = 1;
     for k = 1:size(Hk,1)-1
 
-        if Hgp(m) > Hk(k+1)      % h is above layer k
+        if Hgp(m) > Hk(k+1)                    % h is above layer k
 
-            if Tgradk(k)~=0    % linear thermal layer
+            if Tgradk(k)~=0                    % linear thermal layer
                 sr = ( Tk(k+1)./Tk(k) ).^(-GMR./Tgradk(k));
-            else               % isothermal layer
+            else                               % isothermal layer
                 sr = exp(-GMR*(Hk(k+1)-Hk(k))./Tk(k+1));
             end
             Pks = Pks .* sr;
@@ -82,11 +82,11 @@ for m = 1:length(Hgp)
 
             dh = Hgp(m) - Hk(k);
             T = Tk(k) + Tgradk(k) .* dh;
-            theta(m) = T / T0;              % temperature ratio
+            theta(m) = T / T0;                 % temperature ratio
 
-            if Tgradk(k)~=0    % linear thermal layer
+            if Tgradk(k)~=0                    % linear thermal layer
                 sr = ( T./Tk(k) ).^(-GMR./Tgradk(k));
-            else               % isothermal layer
+            else                               % isothermal layer
                 sr = exp(-GMR*(Hgp(m)-Hk(k))./Tk(k+1));
             end
             delta(m) = Pks .* sr;              % pressure ratio
