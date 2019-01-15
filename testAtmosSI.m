@@ -1,4 +1,7 @@
 % test AtmosSI
+%
+% Copyright (c) 2006-2019 Curtis B. Rath, PhD., aka drcbrath
+% available under the MIT license from Github, https://github.com/drcbrath/mdlAtmos
 
 H = [  -100; 0.0; 5500; 11000.0; 15500; 20000.0; 26000; 32000.0; 39500; 47000.0; 49000; 51000.0; 61000; 71000.0; 80000; 84852.0; 90000 ];
 

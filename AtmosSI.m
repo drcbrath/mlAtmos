@@ -27,6 +27,9 @@ function [T,rho,P,a,visc,theta,sigma,delta,kappa] = AtmosSI(Hgp,varargin)
 %   sigma === 
 %   delta === 
 %   kappa === 
+%
+% Copyright (c) 2006-2019 Curtis B. Rath, PhD., aka drcbrath
+% available under the MIT license from Github, https://github.com/drcbrath/mdlAtmos
 
 %------- constants -------
 Re   = 6369000;       % (m) radius of the earth
