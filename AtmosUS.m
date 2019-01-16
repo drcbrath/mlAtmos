@@ -36,7 +36,7 @@ Re   = 6369000 / (0.30480);                        % (ft) radius of the earth
 GMR  = 0.034163195 * (1.8*0.30480);                % (degR/ft) combined gravity and gas constant of dry air on earth
 H0   = 0.0 / (0.30480);                            % (ft) datum, sea level
 T0   = 288.15 * (1.8);                             % (R), SL std temp
-rho0 = 1.225 * (14.5939*(0.30480^3));              % (sl/ft^3), SL std density
+rho0 = 1.225 * (1/14.5939*(0.30480^3));              % (sl/ft^3), SL std density
 P0   = 101325 * (1/4.4482216152605)*(0.30480^2);   % (lbf/ft^2), SL std pressure
 a0   = 340.2686 / (0.30480);                       % (ft/s), speed of sound at SL std temperature
 
