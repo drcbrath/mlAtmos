@@ -19,3 +19,4 @@ Furthermore, a completely custom temperature profile may be used.
 https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770009539_1977009539.pdf,
  U.S. Standard Atmosphere, 1976, U.S. Government Printing Office, Washington,
  D.C., 1976 (Linked file is 17 MB).
+ 
