@@ -39,11 +39,11 @@ dT = 30;
 
 % linear thermal layer
 H_L = 11000;       % test point, top of troposphere
-[T_2L_dT, rho_2L_dT, P_2L_dT] = AtmosSI(H_L,dT);   % with dT = 20, should match hand calc in linear layer
+[T_2L_dT20, rho_2L_dT20, P_2L_dT20] = AtmosSI(H_L,dT);   % with dT = 20, should match hand calc in linear layer
 
 % isothermal layer
 H_I = 15500;   % test point
-[T_2I_dT, rho_2I_dT, P_2I_dT] = AtmosSI(H_I,dT);   % with dT = 20, should match hand calc in linear layer
+[T_2I_dT20, rho_2I_dT20, P_2I_dT20] = AtmosSI(H_I,dT);   % with dT = 20, should match hand calc in linear layer
 
 
 % (3) dT offset, usinsg same dT offset as verified hand calcs in (2), so test points
@@ -77,26 +77,26 @@ fid = fopen('testAtmosSI.dat','wt');
 
 fprintf(fid,'Atmosphere Properties Model Test Data --- Validated against "US Standard Atmosphere, 1976"\n\n');
 fprintf(fid,'\n(1) Comparison of: std day, evaluated at test altitudes\n');
-fprintf(fid,'       H          T        rho          P          a      theta      sigma      delta      kappa         visc\n');
-fprintf(fid,'     (m)        (K)   (kg/m^3)    (N/m^2)      (m/s)        (1)        (1)        (1)        (1)    (N*s/m^2)\n');
-fprintf(fid,'%8.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e   %10.4e\n',[H, T_std, rho_std, P_std, a_std, theta_std, sigma_std, delta_std, kappa_std, visc_std]');
+fprintf(fid,'     H   T          rho        P          a          theta      sigma      delta      kappa      visc\n');
+fprintf(fid,'    (m) (K)        (kg/m^3)   (N/m^2)    (m/s)      (1)        (1)        (1)        (1)        (N*s/m^2)\n');
+fprintf(fid,'%7.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e\n',[H, T_std, rho_std, P_std, a_std, theta_std, sigma_std, delta_std, kappa_std, visc_std]');
 
 fprintf(fid,'\n(2) Comparison to hand calculations, one in linear layer, one in isothermal layer\n');
 fprintf(fid,'H, T, P only, since other results follow from these as is verified in (1) above\n');
-fprintf(fid,'       H          T          P\n');
-fprintf(fid,'     (m)        (K)    (N/m^2)\n');
-fprintf(fid,'%8.1f %10.4e %10.4e --- linear layer with dT=%4.0f\n',H_L,T_2L_dT, P_2L_dT, dT);
-fprintf(fid,'%8.1f %10.4e %10.4e --- isothermal layer with dT=%4.0f\n',H_I,T_2I_dT, P_2I_dT, dT);
+fprintf(fid,'     H   T          P\n');
+fprintf(fid,'    (m) (K)   (N/m^2)\n');
+fprintf(fid,'%7.1f %10.4e %10.4e --- linear layer with dT=%4.0f\n',H_L,T_2L_dT20, P_2L_dT20, dT);
+fprintf(fid,'%7.1f %10.4e %10.4e --- isothermal layer with dT=%4.0f\n',H_I,T_2I_dT20, P_2I_dT20, dT);
 
 fprintf(fid,'\n(3) Comparison of: dT offset, std+(%f) day, evaluated at test altitudes\n',dT);
 fprintf(fid,'Compare at H=11000 & 15500 m, T & P should be as above in (2) "hand calsc". Rest of table results from logic tested in (1) above\n');
-fprintf(fid,'       H          T        rho          P          a      theta      sigma      delta      kappa         visc\n');
-fprintf(fid,'     (m)        (K)   (kg/m^3)    (N/m^2)      (m/s)        (1)        (1)        (1)        (1)    (N*s/m^2)\n');
-fprintf(fid,'%8.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e   %10.4e\n',[H, T_dT, rho_dT, P_dT, a_dT, theta_dT, sigma_dT, delta_dT, kappa_dT, visc_dT]');
+fprintf(fid,'     H   T          rho        P          a          theta      sigma      delta      kappa      visc\n');
+fprintf(fid,'    (m) (K)        (kg/m^3)   (N/m^2)    (m/s)      (1)        (1)        (1)        (1)        (N*s/m^2)\n');
+fprintf(fid,'%7.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e\n',[H, T_dT, rho_dT, P_dT, a_dT, theta_dT, sigma_dT, delta_dT, kappa_dT, visc_dT]');
 
 fprintf(fid,'\n(4) Comparison of: custom profile, equivalent to std day, evaluated at test altitudes\n');
-fprintf(fid,'       H          T        rho          P          a      theta      sigma      delta      kappa         visc\n');
-fprintf(fid,'     (m)        (K)   (kg/m^3)    (N/m^2)      (m/s)        (1)        (1)        (1)        (1)    (N*s/m^2)\n');
-fprintf(fid,'%8.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e   %10.4e\n',[H, T_cus, rho_cus, P_cus, a_cus, theta_cus, sigma_cus, delta_cus, kappa_cus, visc_cus]');
+fprintf(fid,'     H   T          rho        P          a          theta      sigma      delta      kappa      visc\n');
+fprintf(fid,'    (m) (K)        (kg/m^3)   (N/m^2)    (m/s)      (1)        (1)        (1)        (1)        (N*s/m^2)\n');
+fprintf(fid,'%7.1f %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e %10.4e\n',[H, T_cus, rho_cus, P_cus, a_cus, theta_cus, sigma_cus, delta_cus, kappa_cus, visc_cus]');
 
 fclose(fid);

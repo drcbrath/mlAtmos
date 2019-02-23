@@ -15,10 +15,10 @@ function [T,rho,P,a,visc,theta,sigma,delta,kappa] = AtmosUS(Hgp,varargin)
 %	Input
 %		Hgp   === (ft) geopotential altitude for desired properties
 %		bpHgp === (ft) vector, geopotential altitude breakpoints for custom profile
-%		bpT   === (degR) vector, temperature breakpoints for custom profile
+%		bpT   === (R) vector, temperature breakpoints for custom profile
 %
 % Output
-%	T     ===
+%	 T     ===
 %   rho   === 
 %   P     === 
 %   a     === 
@@ -31,33 +31,38 @@ function [T,rho,P,a,visc,theta,sigma,delta,kappa] = AtmosUS(Hgp,varargin)
 % Copyright (c) 2006-2019 Curtis B. Rath, PhD., aka drcbrath
 % available under the MIT license from Github, https://github.com/drcbrath/mdlAtmos
 
+% Note: US Standard Atmosphere model is defined in SI units
+% So, here the inputs from US (FSS) to SI, calculations are done is SI, and 
+% results converted from SI to US for output
 %------- constants -------
-Re   = 6369000 / (0.30480);                        % (ft) radius of the earth
-GMR  = 0.034163195 * (1.8*0.30480);                % (degR/ft) combined gravity and gas constant of dry air on earth
-H0   = 0.0 / (0.30480);                            % (ft) datum, sea level
-T0   = 288.15 * (1.8);                             % (R), SL std temp
-rho0 = 1.225 * (1/14.5939*(0.30480^3));              % (sl/ft^3), SL std density
-P0   = 101325 * (1/4.4482216152605)*(0.30480^2);   % (lbf/ft^2), SL std pressure
-a0   = 340.2686 / (0.30480);                       % (ft/s), speed of sound at SL std temperature
+Re   = 6369000;       % (m) radius of the earth
+GMR  = 0.034163195;   % (degK/m) combined gravity and gas constant of dry air on earth
+H0   = 0.0;           % (m) datum, sea level
+T0   = 288.15;        % (K), SL std temp
+rho0 = 1.225;         % (kg/m^3), SL std density
+P0   = 101325;        % (N/m^2), SL std pressure
+a0   = 340.2686;      % (m/s), speed of sound at SL std temperature
 
 % std day atmosphere profiles
-Hk     = [   0.0; 11000.0; 20000.0; 32000.0; 47000.0; 51000.0; 71000.0; 84852.0 ] / (0.30480);   % (ft)
-Tk     = [288.15;  216.65;  216.65;  228.65;  270.65;  270.65;  214.65;  186.95] * (1.8);   % (R)
-Tgradk = [-0.0065000; 0.0000000; 0.0010000; 0.0028000; 0.0000000; -0.0028000; -0.0019997; -0.0019997] * (1.8)*(0.30480);   % (degR/ft)
+Hk     = [   0.0; 11000.0; 20000.0; 32000.0; 47000.0; 51000.0; 71000.0; 84852.0 ];                       % (m)
+Tk     = [288.15;  216.65;  216.65;  228.65;  270.65;  270.65;  214.65;  186.95];                        % (K)
+Tgradk = [-0.0065000; 0.0000000; 0.0010000; 0.0028000; 0.0000000; -0.0028000; -0.0019997; -0.0019997];   % (degK/ft)
   
 %------- process alternate input arguments -------
 if nargin == 1                                         % std atmosphere
 elseif nargin == 2 && isscalar(varargin{1})            % add temperature delta, use std lapse rates
-	Tk = Tk + varargin{1}; 
+	Tk = Tk + varargin{1}/1.8; 
 elseif nargin == 3 && isvector(varargin{1}) && isvector(varargin{2})   % custom temperature profile
-	Hk = varargin{1};
-	Tk = varargin{2};             
+	Hk = varargin{1}*0.3048;
+	Tk = varargin{2}/1.8;             
 	Tgradk = diff(Tk)./diff(Hk);    % compute temperature gradients through atmosphere
 	Tgradk = [Tgradk; Tgradk(end)];
 	Tsl = Tk(1);                    % note sea level
 else
 	% error, display usage
 end
+
+Hgp = Hgp*0.3048;   % convert from ft to m
 
 %------- compute ratios using established temperature profile -------
 
@@ -108,7 +113,11 @@ sigma = reshape(sigma,sz);
 delta = reshape(delta,sz);
 kappa = reshape(kappa,sz);
 
-% dimensionalize
+% dimensionalize with US unit sea level std values
+T0     = 518.67;        % deg R, SL std temp
+rho0   = 0.002377;      % sl/ft^3, SL std density
+P0     = 2116.2;        % lbf/ft^2, SL std pressure
+a0     = 1116.3;        % ft/s, speed of sound at SL std temperature
 T   = T0   * theta;
 rho = rho0 * sigma;
 P   = P0   * delta;
