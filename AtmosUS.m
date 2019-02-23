@@ -124,6 +124,9 @@ P   = P0   * delta;
 a   = a0   * kappa;
 
 % viscosity
-visc = AirViscUS(T);
+% Note: 2 coeff form of Sutherland's law results differ slightly from 3 coeff form
+% But, it is consistent with & taken from the US Standard Atmosphere, 1976, pg 19
+
+visc = ( 1.458e-6 * (T/1.8).^1.5 ./ ((T/1.8)+110.4) ) * 0.3048*0.3048/4.4482216152605;
 
 end

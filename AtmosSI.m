@@ -25,7 +25,7 @@ function [T,rho,P,a,visc,theta,sigma,delta,kappa] = AtmosSI(Hgp,varargin)
 %   rho   === 
 %   P     === 
 %   a     === 
-%   visc  === 
+%   visc  === (N*s/m^2) absolute viscosity
 %   theta === 
 %   sigma === 
 %   delta === 
