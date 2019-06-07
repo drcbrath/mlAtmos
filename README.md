@@ -1,4 +1,4 @@
-0# mdlAtmos
+0# mlAtmos
 Atmosphere properties versus altitude written in Matlab. Based on US standard atmosphere, plus capability for custom temperature profile.
 
 This atmosphere model follows the derivation found in the US Standard Atmosphere 1976. It is based on the hydrostatic equation and ideal gas law. 
