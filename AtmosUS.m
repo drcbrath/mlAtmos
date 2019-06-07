@@ -73,7 +73,7 @@ delta = nan(size(Hgp));
 kappa = nan(size(Hgp));
 
 % loop through input altitudes
-for m = 1:length(Hgp)
+for m = 1:numel(Hgp)
     Pks = 1;
     for k = 1:size(Hk,1)-1
 

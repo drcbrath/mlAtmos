@@ -4,15 +4,16 @@ classdef mdlAtmosSI
 % available under the MIT license from Github, https://github.com/drcbrath/mdlAtmos
 
    properties
-      T     = nan;   % (K) temperature
-      Rho   = nan;   % (kg/m^3) density
-      P     = nan;   % (N/m^2) pressure
-      a     = nan;   % (m/s) sonic speed
-      visc  = nan;   % (N*s/m^2) absolute viscosity
-      theta = nan;   % (1) temperature ratio to sea level standard
-      sigma = nan;   % (1) density ratio to sea level standard
-      delta = nan;   % (1) pressure ratio to sea level standard
-      kappa = nan;   % (1) sonic speed ratio to sea level standard
+      T;       % (K) temperature
+      Rho;     % (kg/m^3) density
+      P;       % (N/m^2) pressure
+      a;       % (m/s) sonic speed
+      visc;    % (N*s/m^2) absolute viscosity
+      theta;   % (1) temperature ratio to sea level standard
+      sigma;   % (1) density ratio to sea level standard
+      delta;   % (1) pressure ratio to sea level standard
+      kappa;   % (1) sonic speed ratio to sea level standard
+
    endproperties
    
    properties (private)
@@ -39,41 +40,38 @@ classdef mdlAtmosSI
 
    methods
 
-      % constructors
-      function atmos = mdlAtmosSI()
-         % set profiles
-         atmos.Hk = std Hk;
-         atmos.Tk = stdTk;
-         atmos.Tgradk = stdTgradk;
-         % initialize atmosphere properties
-         atmos.at(0);
-      endfunction
+      % constructor
+      function atmos = mdlAtmosSI(varargin)
 
-      function atmos = mdlAtmosSI(dT)
-         if isscalar(dT)
+         if nargin == 0
             % set profiles
-            atmos.Hk = std Hk;
-            atmos.Tk = stdTk+dT;
+            atmos.Hk = stdHk;
+            atmos.Tk = stdTk;
             atmos.Tgradk = stdTgradk;
             % initialize atmosphere properties
             atmos.at(0);
-         else
-            dispUsage();
-         end
-      endfunction
-         
-      function atmos = mdlAtmosSI(Hk,Tk)
-         if isvector(Hk) && isvector(Tk)
+
+         elseif nargin==1 && isscalar(varargin{1})
+           % set profiles
+            atmos.Hk = stdHk;
+            atmos.Tk = stdTk+varargin{1};   % apply dT offset
+            atmos.Tgradk = stdTgradk;
+            % initialize atmosphere properties
+            atmos.at(0);
+
+         elseif nargin==2 && isvector(varargin{1}) && isvector(varargin{2})
             % set profiles
-            atmos.Hk = Hk;
-            atmos.Tk = Tk;
+            atmos.Hk = varargin{1};
+            atmos.Tk = varargin{2};
             atmos.Tgradk = diff(Tk)./diff(Hk);    % compute temperature gradients through atmosphere
             atmos.Tgradk = [atmos.Tgradk atmos.Tgradk(end)];
             % initialize atmosphere properties
             atmos.at(0);
+
          else
             dispUsage();
          end
+
       endfunction
    
       % evaluate properties
@@ -175,39 +173,39 @@ classdef mdlAtmosSI
 
       function T = T(atmos)
          T = atmos.T;
-      end
+      end % function
 
       function rho = rho(atmos)
          rho = atmos.rho;
-      end
+      end % function
 
       function P = P(atmos)
          P = atmos.P;
-      end
+      end % function
 
       function a = a(atmos)
          a = atmos.a;
-      end
+      end % function
 
       function visc = visc(atmos)
          visc = atmos.visc;
-      end
+      end % function
 
       function theta = theta(atmos)
          theta = atmos.theta;
-      end
+      end % function
 
       function sigma = sigma(atmos)
          sigma = atmos.sigma;
-      end
+      end % function
 
       function delta = delta(atmos)
          delta = atmos.delta;
-      end
+      end % function
 
       function kappa = kappa(atmos)
          kappa = atmos.kappa;
-      end
+      end % function
 
    endmethods
 
